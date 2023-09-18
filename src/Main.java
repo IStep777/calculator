@@ -6,7 +6,7 @@ import java.lang.Exception;
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите арифметическое выражение только арабксими или только римскими числами от 1 до 10 включительно");
+        System.out.println("Введите арифметическое выражение только арабскими или только римскими числами от 1 до 10 включительно");
         String input = scanner.nextLine();
 
         System.out.println("Результат: " + calc(input));
@@ -21,6 +21,7 @@ public class Main {
         String calculation = ""; //строка для результата, тк могут быть римские цифры
         boolean itsRomanNumbers = false; //для определения арабских или римских цифр
 
+        //получаем операцию
         if (input.indexOf("+") != -1) {
             operation = '+';
         }
@@ -38,6 +39,7 @@ public class Main {
             throw new Exception("Формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
         }
 
+        //вычисляем два числа
         String[] parts = input.split("[+-/*]");
 
         if (parts.length != 2) {
@@ -55,23 +57,26 @@ public class Main {
             itsRomanNumbers = true;
         }
 
-
+        //преобразуем римские цифры в int
         if (itsRomanNumbers) {
             number1 = convertRomanToArabic(parts[0]);
             number2 = convertRomanToArabic(parts[1]);
         }
 
-
+        //проверяем корректность цифр от 1 до 10
         if (number1 > 0 && number1 < 11 && number2 > 0 && number2 < 11) {
             calcResult = result(number1, number2, operation);
             if (itsRomanNumbers) {
+                //проверяем для римских цифр что результат не отрицателен и не ноль
                 if (calcResult > 1) {
+                    //переводим int в римские цифры
                     calculation = convertArabicToRoman(calcResult);
                 }
                 else {
                     throw new Exception("В римской системе нет отрицательных чисел и нуля");
                 }
             } else {
+                //переведем полученный результат в строку, тк возвращаем String
                 calculation = Integer.toString(calcResult);
             }
             return calculation;
@@ -81,6 +86,7 @@ public class Main {
 
     }
 
+    //Функция вычисления выражения для сумму, разности, умножения и деления
     public static int result(int nubmer1, int number2, char operation) {
 
         int result = 0;
@@ -100,6 +106,7 @@ public class Main {
         return result;
     }
 
+    //Функция для перевода римских цифр (1-10) в int
     public static int convertRomanToArabic(String number) {
 
         int result = 0;
@@ -115,6 +122,7 @@ public class Main {
         return result;
     }
 
+    //перевод арабских в римские цифры
     public static String convertArabicToRoman(int arabicNumber) {
 
         String result = "";
